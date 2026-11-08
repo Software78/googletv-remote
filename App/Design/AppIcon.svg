@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3A2BD9"/>
+      <stop offset="1" stop-color="#2D9BFF"/>
+    </linearGradient>
+  </defs>
+  <rect width="1024" height="1024" fill="url(#bg)"/>
+  <!-- d-pad glyph: centre button + four arrows, centred on (512,512), ~55% of canvas -->
+  <g fill="#FFFFFF" stroke="#FFFFFF" stroke-width="28" stroke-linejoin="round">
+    <circle cx="512" cy="512" r="112" stroke="none"/>
+    <path d="M512 250 L452 334 L572 334 Z"/>                       <!-- up -->
+    <path d="M512 774 L452 690 L572 690 Z"/>                       <!-- down -->
+    <path d="M250 512 L334 452 L334 572 Z"/>                       <!-- left -->
+    <path d="M774 512 L690 452 L690 572 Z"/>                       <!-- right -->
+  </g>
+</svg>

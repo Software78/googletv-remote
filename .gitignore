@@ -1,0 +1,22 @@
+# Build output
+.build/
+build/
+DerivedData/
+*.xcarchive
+
+# Xcode user state
+xcuserdata/
+*.xcuserstate
+*.xcworkspace/xcuserdata/
+
+# SwiftPM
+.swiftpm/
+Packages/
+
+# macOS
+.DS_Store
+
+# Local dev-tool identity (never commit pairing keys)
+.tvctl/
+*.p12
+*.pem

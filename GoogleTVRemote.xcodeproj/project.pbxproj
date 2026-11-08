@@ -1,0 +1,423 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 60;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0844E8F187F50A52607FEA5F /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1CD339DB869320D14B2822A /* SettingsView.swift */; };
+		16EE1E3F3C29990A92E61572 /* GoogleTVKit in Frameworks */ = {isa = PBXBuildFile; productRef = 017F87E3E1DE1DED6463618E /* GoogleTVKit */; };
+		19A0AB262862FEC041EED715 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C9C001C8D875DF086A3A55 /* Theme.swift */; };
+		4FF867070EDF0641988FF9C0 /* RemoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD2F2407756F874F02E1E5B /* RemoteView.swift */; };
+		61DD5C8677FAE394E3BFAB7A /* KeyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1984B00D47BAB32877033DB5 /* KeyButton.swift */; };
+		80593887678EE7802E8411B5 /* AppLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = C37D040119244372FEE27B6A /* AppLibrary.swift */; };
+		AFEA585C9E759B4D14ADC344 /* KeychainHostedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC401215964646072F80AB9 /* KeychainHostedTests.swift */; };
+		BED7EA7BD0234FC01725D019 /* GoogleTVRemoteApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68811FE6AFCEBEE2823E7C0B /* GoogleTVRemoteApp.swift */; };
+		C2BEB0A13646DB198814C495 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7466D8C936D5E57CF818B755 /* Assets.xcassets */; };
+		E18158C4EAC5F7C259F2BB2B /* TVSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88DFA5C996BAF89F817B03BB /* TVSession.swift */; };
+		ECF2C7B8CDFA54E67656CAD0 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37C5D3E0ABD2B0AB08411CB /* RootView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		431387EB7262E1CFC79B125E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 46F86FAA6BBF9AC94A7E4595 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E855A13C2C860ABB41388A63;
+			remoteInfo = GoogleTVRemote;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		1984B00D47BAB32877033DB5 /* KeyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyButton.swift; sourceTree = "<group>"; };
+		49C9C001C8D875DF086A3A55 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		588CB34AE98642743F765983 /* GoogleTVRemote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GoogleTVRemote.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		68811FE6AFCEBEE2823E7C0B /* GoogleTVRemoteApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleTVRemoteApp.swift; sourceTree = "<group>"; };
+		7466D8C936D5E57CF818B755 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		7BC401215964646072F80AB9 /* KeychainHostedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainHostedTests.swift; sourceTree = "<group>"; };
+		88DFA5C996BAF89F817B03BB /* TVSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVSession.swift; sourceTree = "<group>"; };
+		8EAC601DBBFC153C1A7F9F42 /* GoogleTVKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = GoogleTVKit; sourceTree = "<group>"; };
+		A1CD339DB869320D14B2822A /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		A6652EB64C513160B9D35F59 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		ABD2F2407756F874F02E1E5B /* RemoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteView.swift; sourceTree = "<group>"; };
+		B37C5D3E0ABD2B0AB08411CB /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		C37D040119244372FEE27B6A /* AppLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLibrary.swift; sourceTree = "<group>"; };
+		DBE968EDD07626B7A7AA9BDA /* GoogleTVRemoteTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GoogleTVRemoteTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A08F0A6A88F4EC89040CF612 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E503B88588DB8CA2F5F9AD82 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				16EE1E3F3C29990A92E61572 /* GoogleTVKit in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0308328014CDFD94D08854C9 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B37C5D3E0ABD2B0AB08411CB /* RootView.swift */,
+				ABD2F2407756F874F02E1E5B /* RemoteView.swift */,
+				1984B00D47BAB32877033DB5 /* KeyButton.swift */,
+				A1CD339DB869320D14B2822A /* SettingsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		0FE3C73F02347A26360D82EF /* App */ = {
+			isa = PBXGroup;
+			children = (
+				68811FE6AFCEBEE2823E7C0B /* GoogleTVRemoteApp.swift */,
+				88DFA5C996BAF89F817B03BB /* TVSession.swift */,
+				C37D040119244372FEE27B6A /* AppLibrary.swift */,
+				0308328014CDFD94D08854C9 /* Views */,
+				C42CE0B7B1F1C36B88E2AB7D /* Design */,
+				7466D8C936D5E57CF818B755 /* Assets.xcassets */,
+				A6652EB64C513160B9D35F59 /* Info.plist */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		13C77465A23800AAF8B63D0A /* AppTests */ = {
+			isa = PBXGroup;
+			children = (
+				7BC401215964646072F80AB9 /* KeychainHostedTests.swift */,
+			);
+			path = AppTests;
+			sourceTree = "<group>";
+		};
+		4688211A81A62493654CF8D7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				588CB34AE98642743F765983 /* GoogleTVRemote.app */,
+				DBE968EDD07626B7A7AA9BDA /* GoogleTVRemoteTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C42CE0B7B1F1C36B88E2AB7D /* Design */ = {
+			isa = PBXGroup;
+			children = (
+				49C9C001C8D875DF086A3A55 /* Theme.swift */,
+			);
+			path = Design;
+			sourceTree = "<group>";
+		};
+		C5F7D58099E4A870CE2C78DC = {
+			isa = PBXGroup;
+			children = (
+				8EAC601DBBFC153C1A7F9F42 /* GoogleTVKit */,
+				0FE3C73F02347A26360D82EF /* App */,
+				13C77465A23800AAF8B63D0A /* AppTests */,
+				4688211A81A62493654CF8D7 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		369ED8059C7603981D1DC37A /* GoogleTVRemoteTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5E9508B38DD31A32DEBE285B /* Build configuration list for PBXNativeTarget "GoogleTVRemoteTests" */;
+			buildPhases = (
+				192843CB3F8C28009FA2B5C5 /* Sources */,
+				A08F0A6A88F4EC89040CF612 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8117409116AE93B7698D0780 /* PBXTargetDependency */,
+			);
+			name = GoogleTVRemoteTests;
+			packageProductDependencies = (
+			);
+			productName = GoogleTVRemoteTests;
+			productReference = DBE968EDD07626B7A7AA9BDA /* GoogleTVRemoteTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		E855A13C2C860ABB41388A63 /* GoogleTVRemote */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4BD0BFBDE0D101169D09F7D3 /* Build configuration list for PBXNativeTarget "GoogleTVRemote" */;
+			buildPhases = (
+				CED1D8C2A711E64B3FA38062 /* Sources */,
+				E503B88588DB8CA2F5F9AD82 /* Frameworks */,
+				B90248296684F4B9D9A7FA70 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = GoogleTVRemote;
+			packageProductDependencies = (
+				017F87E3E1DE1DED6463618E /* GoogleTVKit */,
+			);
+			productName = GoogleTVRemote;
+			productReference = 588CB34AE98642743F765983 /* GoogleTVRemote.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		46F86FAA6BBF9AC94A7E4595 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1600;
+			};
+			buildConfigurationList = D21051CA55C4951578649475 /* Build configuration list for PBXProject "GoogleTVRemote" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = C5F7D58099E4A870CE2C78DC;
+			packageReferences = (
+				AD7AE9628AC08984BEC8B269 /* XCLocalSwiftPackageReference "GoogleTVKit" */,
+			);
+			productRefGroup = 4688211A81A62493654CF8D7 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E855A13C2C860ABB41388A63 /* GoogleTVRemote */,
+				369ED8059C7603981D1DC37A /* GoogleTVRemoteTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		B90248296684F4B9D9A7FA70 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C2BEB0A13646DB198814C495 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		192843CB3F8C28009FA2B5C5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AFEA585C9E759B4D14ADC344 /* KeychainHostedTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CED1D8C2A711E64B3FA38062 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BED7EA7BD0234FC01725D019 /* GoogleTVRemoteApp.swift in Sources */,
+				E18158C4EAC5F7C259F2BB2B /* TVSession.swift in Sources */,
+				80593887678EE7802E8411B5 /* AppLibrary.swift in Sources */,
+				ECF2C7B8CDFA54E67656CAD0 /* RootView.swift in Sources */,
+				4FF867070EDF0641988FF9C0 /* RemoteView.swift in Sources */,
+				61DD5C8677FAE394E3BFAB7A /* KeyButton.swift in Sources */,
+				0844E8F187F50A52607FEA5F /* SettingsView.swift in Sources */,
+				19A0AB262862FEC041EED715 /* Theme.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		8117409116AE93B7698D0780 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E855A13C2C860ABB41388A63 /* GoogleTVRemote */;
+			targetProxy = 431387EB7262E1CFC79B125E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		0306681E2F2F1FD8684C84F5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.googletvremote.app.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GoogleTVRemote.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/GoogleTVRemote";
+			};
+			name = Debug;
+		};
+		2DEAED7BC91507FD80F07BB9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ENABLE_MODULES = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_VERSION = 6.0;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		5CF7759412826E231AA17ADA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2A82QYG73P;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = App/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Remote;
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Remote finds your Google TV on your Wi-Fi network and sends it button presses. Nothing leaves your local network.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.googletvremote.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		991D77CDB7B702D7E4E44FD6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2A82QYG73P;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = App/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Remote;
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Remote finds your Google TV on your Wi-Fi network and sends it button presses. Nothing leaves your local network.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.googletvremote.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		AB14FF13A07E702D11452AD6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ENABLE_MODULES = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		ECD1307E5547703C868E281C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.googletvremote.app.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GoogleTVRemote.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/GoogleTVRemote";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4BD0BFBDE0D101169D09F7D3 /* Build configuration list for PBXNativeTarget "GoogleTVRemote" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				991D77CDB7B702D7E4E44FD6 /* Debug */,
+				5CF7759412826E231AA17ADA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5E9508B38DD31A32DEBE285B /* Build configuration list for PBXNativeTarget "GoogleTVRemoteTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0306681E2F2F1FD8684C84F5 /* Debug */,
+				ECD1307E5547703C868E281C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D21051CA55C4951578649475 /* Build configuration list for PBXProject "GoogleTVRemote" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AB14FF13A07E702D11452AD6 /* Debug */,
+				2DEAED7BC91507FD80F07BB9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		AD7AE9628AC08984BEC8B269 /* XCLocalSwiftPackageReference "GoogleTVKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = GoogleTVKit;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		017F87E3E1DE1DED6463618E /* GoogleTVKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = GoogleTVKit;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 46F86FAA6BBF9AC94A7E4595 /* Project object */;
+}
