@@ -25,6 +25,8 @@ final class TVSession {
     private(set) var discovered: [DiscoveredTV] = []
     private(set) var discoveryProblem: TVError?
     private(set) var lastCodeError: TVError?
+    private(set) var textFieldActive = false
+    private(set) var textFieldLabel: String?
 
     var haptics: Bool {
         didSet { UserDefaults.standard.set(haptics, forKey: "haptics") }
@@ -222,7 +224,10 @@ final class TVSession {
         case .power(let on): power = on
         case .currentApp(let pkg): currentApp = pkg
         case .volume(let v): volume = v
-        case .textFieldFocused, .textFieldDismissed: break
+        case .textFieldFocused(let f):
+            textFieldActive = true
+            textFieldLabel = f.label.isEmpty ? nil : f.label
+        case .textFieldDismissed: textFieldActive = false; textFieldLabel = nil
         case .disconnected(let err):
             guard phase == .connected else { return }
             if let err, err.recovery == .pair { phase = .failed(err) } else { beginReconnect() }
@@ -235,6 +240,14 @@ final class TVSession {
         guard let client, phase == .connected else { return }
         Task {
             do { try await client.send(key, direction: direction) }
+            catch { beginReconnect() }
+        }
+    }
+
+    func sendText(_ text: String) {
+        guard let client, phase == .connected else { return }
+        Task {
+            do { try await client.sendText(text) }
             catch { beginReconnect() }
         }
     }

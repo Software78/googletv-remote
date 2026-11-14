@@ -2,16 +2,17 @@ import SwiftUI
 import GoogleTVKit
 
 enum RemoteMode: String, CaseIterable, Identifiable {
-    case dpad, touchpad
+    case dpad, touchpad, keyboard
     var id: String { rawValue }
     var symbol: String {
         switch self {
         case .dpad: "dot.circle.and.hand.point.up.left.fill"
         case .touchpad: "hand.point.up.left.fill"
+        case .keyboard: "keyboard"
         }
     }
     var label: String {
-        switch self { case .dpad: "D-pad"; case .touchpad: "Touchpad" }
+        switch self { case .dpad: "D-pad"; case .touchpad: "Touchpad"; case .keyboard: "Keyboard" }
     }
 }
 
@@ -40,13 +41,16 @@ struct RemoteView: View {
                 switch mode {
                 case .dpad: DPadCluster()
                 case .touchpad: TouchpadView()
+                case .keyboard: KeyboardView()
                 }
             }
-            .frame(minHeight: minPad, maxHeight: .infinity)
+            .frame(minHeight: mode == .keyboard ? 0 : minPad, maxHeight: .infinity)
             ModePicker(mode: $mode)
-            NavRow()
-            VolumeBar()
-            ShortcutRow()
+            if mode != .keyboard {
+                NavRow()
+                VolumeBar()
+                ShortcutRow()
+            }
         }
     }
 }
@@ -251,6 +255,65 @@ private struct TouchpadView: View {
     private func emit(_ key: TVKey) {
         session.haptic(.soft)
         session.send(key)
+    }
+}
+
+// MARK: Keyboard
+
+/// Types on the TV. The field is a scratch buffer: each edit is diffed against the previous
+/// value and sent as inserted text or Backspace presses; Return sends Enter.
+private struct KeyboardView: View {
+    @Environment(TVSession.self) private var session
+    @State private var text = ""
+    @State private var previous = ""
+    @FocusState private var focused: Bool
+
+    var body: some View {
+        let shape = RoundedRectangle(cornerRadius: 28, style: .continuous)
+        VStack(spacing: 14) {
+            Text(session.textFieldLabel ?? (session.textFieldActive ? "Text field on TV" : "Select a text field on the TV"))
+                .font(.caption).foregroundStyle(Theme.secondaryLabel).lineLimit(1)
+            TextField("Type here", text: $text)
+                .focused($focused)
+                .textInputAutocapitalization(.never)
+                .autocorrectionDisabled()
+                .submitLabel(.send)
+                .onSubmit { session.haptic(); session.send(.enter); focused = true }
+                .padding(.horizontal, 18).frame(height: 56)
+                .neuBackground(Capsule(), pressed: true)
+                .accessibilityLabel("Type on TV")
+            HStack(spacing: 12) {
+                action("delete.left", "Backspace", .delete, repeats: true)
+                action("return", "Enter", .enter, repeats: false)
+            }
+            Spacer(minLength: 0)
+        }
+        .padding(20)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .neuBackground(shape)
+        .onAppear { focused = true }
+        .onChange(of: text) { _, new in
+            sync(from: previous, to: new)
+            previous = new
+        }
+        .onChange(of: session.textFieldActive) { _, active in
+            if !active { text = ""; previous = "" }
+        }
+    }
+
+    private func action(_ symbol: String, _ label: String, _ key: TVKey, repeats: Bool) -> some View {
+        KeyButton(key: key, shape: Capsule(), longPress: false) {
+            Image(systemName: symbol).font(.title3).frame(maxWidth: .infinity, minHeight: 52)
+        }
+        .accessibilityLabel(label)
+    }
+
+    private func sync(from old: String, to new: String) {
+        let o = Array(old), n = Array(new)
+        var i = 0
+        while i < o.count, i < n.count, o[i] == n[i] { i += 1 }
+        for _ in i..<o.count { session.send(.delete) }
+        if i < n.count { session.sendText(String(n[i...])) }
     }
 }
 
