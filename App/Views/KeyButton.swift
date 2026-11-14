@@ -45,9 +45,11 @@ struct KeyButton<Content: View, S: InsettableShape>: View {
             guard !Task.isCancelled else { return }
             didHold = true
             if repeatsWhenHeld {
+                var interval = 140
                 while !Task.isCancelled {
                     session.send(key)
-                    try? await Task.sleep(for: .milliseconds(140))
+                    try? await Task.sleep(for: .milliseconds(interval))
+                    interval = max(60, interval - 8)       // speeds up the longer you hold
                 }
             } else {
                 session.haptic(.medium)

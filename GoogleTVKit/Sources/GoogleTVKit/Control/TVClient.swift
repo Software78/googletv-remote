@@ -46,6 +46,7 @@ public protocol TVClient: Sendable {
     func send(_ key: TVKey, direction: KeyDirection) async throws
     func launch(appLink: String) async throws
     func sendText(_ text: String) async throws
+    func sendCharacterKeys(_ text: String) async throws
 }
 
 extension TVClient {

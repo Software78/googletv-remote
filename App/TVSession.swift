@@ -31,6 +31,9 @@ final class TVSession {
     var haptics: Bool {
         didSet { UserDefaults.standard.set(haptics, forKey: "haptics") }
     }
+    var forceKeyEvents: Bool {
+        didSet { UserDefaults.standard.set(forceKeyEvents, forKey: "forceKeyEvents") }
+    }
     var host: String {
         didSet { UserDefaults.standard.set(host, forKey: "lastHost") }
     }
@@ -42,10 +45,12 @@ final class TVSession {
     private var client: RemoteConnection?
     private var eventTask: Task<Void, Never>?
     private var reconnectTask: Task<Void, Never>?
+    private var typingTail: Task<Void, Never>?
 
     init() {
         host = UserDefaults.standard.string(forKey: "lastHost") ?? ""
         haptics = UserDefaults.standard.object(forKey: "haptics") as? Bool ?? true
+        forceKeyEvents = UserDefaults.standard.bool(forKey: "forceKeyEvents")
     }
 
     var isLive: Bool {
@@ -222,7 +227,9 @@ final class TVSession {
         switch e {
         case .ready(let info): deviceModel = info.model
         case .power(let on): power = on
-        case .currentApp(let pkg): currentApp = pkg
+        case .currentApp(let pkg):
+            if pkg != currentApp { textFieldActive = false; textFieldLabel = nil }
+            currentApp = pkg
         case .volume(let v): volume = v
         case .textFieldFocused(let f):
             textFieldActive = true
@@ -244,11 +251,27 @@ final class TVSession {
         }
     }
 
-    func sendText(_ text: String) {
+    /// Types text on the TV. Uses IME text edits when the TV has shown a text field, otherwise
+    /// (or when `forceKeyEvents` is on, e.g. browsers) sends individual key presses.
+    func type(_ text: String) {
+        guard !text.isEmpty else { return }
+        let ime = textFieldActive && !forceKeyEvents
+        enqueueTyping { c in
+            if ime { try await c.sendText(text) } else { try await c.sendCharacterKeys(text) }
+        }
+    }
+
+    func backspace(_ count: Int = 1) {
+        enqueueTyping { c in for _ in 0..<count { try await c.send(.delete) } }
+    }
+
+    /// Typing operations run strictly in order.
+    private func enqueueTyping(_ op: @escaping @Sendable (RemoteConnection) async throws -> Void) {
         guard let client, phase == .connected else { return }
-        Task {
-            do { try await client.sendText(text) }
-            catch { beginReconnect() }
+        let previous = typingTail
+        typingTail = Task { [weak self] in
+            await previous?.value
+            do { try await op(client) } catch { self?.beginReconnect() }
         }
     }
 

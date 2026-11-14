@@ -83,6 +83,53 @@ public final class RemoteConnection: TVClient, @unchecked Sendable {
         try await write(m)
     }
 
+    /// Types by sending individual key events. Works in apps (e.g. browsers) that ignore IME text edits.
+    public func sendCharacterKeys(_ text: String) async throws {
+        for ch in text {
+            guard let (code, shift) = Self.keyCode(for: ch), let key = Remote_RemoteKeyCode(rawValue: code) else { continue }
+            if shift { try await sendRaw(.keycodeShiftLeft, .startLong) }
+            try await sendRaw(key, .short)
+            if shift { try await sendRaw(.keycodeShiftLeft, .endLong) }
+        }
+    }
+
+    private func sendRaw(_ key: Remote_RemoteKeyCode, _ dir: KeyDirection) async throws {
+        var m = Remote_RemoteMessage()
+        m.remoteKeyInject.keyCode = key
+        m.remoteKeyInject.direction = dir.proto
+        try await write(m)
+    }
+
+    /// Android KEYCODE for a character, and whether Shift is needed. nil = no key for it.
+    static func keyCode(for ch: Character) -> (Int, Bool)? {
+        guard let a = ch.asciiValue else { return nil }
+        switch a {
+        case UInt8(ascii: "a")...UInt8(ascii: "z"): return (29 + Int(a - UInt8(ascii: "a")), false)
+        case UInt8(ascii: "A")...UInt8(ascii: "Z"): return (29 + Int(a - UInt8(ascii: "A")), true)
+        case UInt8(ascii: "0")...UInt8(ascii: "9"): return (7 + Int(a - UInt8(ascii: "0")), false)
+        default: break
+        }
+        switch ch {
+        case " ": return (62, false)
+        case ".": return (56, false)
+        case ",": return (55, false)
+        case "-": return (69, false)
+        case "=": return (70, false)
+        case "/": return (76, false)
+        case "@": return (77, false)
+        case ";": return (74, false)
+        case "'": return (75, false)
+        case "\\": return (73, false)
+        case "[": return (71, false)
+        case "]": return (72, false)
+        case "+": return (81, false)
+        case "*": return (17, false)
+        case "#": return (18, false)
+        case "\n": return (66, false)
+        default: return nil
+        }
+    }
+
     // MARK: Internals
 
     private func write(_ m: Remote_RemoteMessage) async throws {

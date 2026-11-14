@@ -2,17 +2,21 @@ import SwiftUI
 import GoogleTVKit
 
 enum RemoteMode: String, CaseIterable, Identifiable {
-    case dpad, touchpad, keyboard
+    case dpad, touchpad, gyro, keyboard, voice
     var id: String { rawValue }
     var symbol: String {
         switch self {
         case .dpad: "dot.circle.and.hand.point.up.left.fill"
         case .touchpad: "hand.point.up.left.fill"
+        case .gyro: "gyroscope"
         case .keyboard: "keyboard"
+        case .voice: "mic.fill"
         }
     }
     var label: String {
-        switch self { case .dpad: "D-pad"; case .touchpad: "Touchpad"; case .keyboard: "Keyboard" }
+        switch self { case .dpad: "D-pad"; case .touchpad: "Touchpad"; case .gyro: "Motion"; case .keyboard: "Keyboard"; case .voice: "Voice" }
+    }
+    var showsControls: Bool { self != .keyboard && self != .voice
     }
 }
 
@@ -41,12 +45,14 @@ struct RemoteView: View {
                 switch mode {
                 case .dpad: DPadCluster()
                 case .touchpad: TouchpadView()
+                case .gyro: GyroView()
                 case .keyboard: KeyboardView()
+                case .voice: VoiceView()
                 }
             }
-            .frame(minHeight: mode == .keyboard ? 0 : minPad, maxHeight: .infinity)
+            .frame(minHeight: mode.showsControls ? minPad : 0, maxHeight: .infinity)
             ModePicker(mode: $mode)
-            if mode != .keyboard {
+            if mode.showsControls {
                 NavRow()
                 VolumeBar()
                 ShortcutRow()
@@ -170,6 +176,9 @@ private struct TouchpadView: View {
     @State private var longTask: Task<Void, Never>?
     @State private var didLong = false
     @State private var active = false
+    @State private var holdDir: TVKey?
+    @State private var lastDragEvent = Date()
+    @State private var repeatTask: Task<Void, Never>?
 
     var body: some View {
         let shape = RoundedRectangle(cornerRadius: 28, style: .continuous)
@@ -210,7 +219,21 @@ private struct TouchpadView: View {
     private func onChanged(_ v: DragGesture.Value) {
         if !active {
             active = true; moved = false; didLong = false
-            lastTranslation = .zero; accum = .zero
+            lastTranslation = .zero; accum = .zero; holdDir = nil
+            repeatTask?.cancel()
+            repeatTask = Task {
+                // Finger held still after swiping: keep stepping in that direction.
+                var lastRepeat = Date.distantPast
+                while !Task.isCancelled {
+                    try? await Task.sleep(for: .milliseconds(30))
+                    guard moved, !didLong, let dir = holdDir else { continue }
+                    let now = Date()
+                    if now.timeIntervalSince(lastDragEvent) > 0.25, now.timeIntervalSince(lastRepeat) > 0.11 {
+                        lastRepeat = now
+                        emit(dir)
+                    }
+                }
+            }
             longTask = Task {
                 try? await Task.sleep(for: .milliseconds(500))
                 guard !Task.isCancelled, !moved else { return }
@@ -222,6 +245,11 @@ private struct TouchpadView: View {
         let dx = v.translation.width - lastTranslation.width
         let dy = v.translation.height - lastTranslation.height
         lastTranslation = v.translation
+        if hypot(dx, dy) > 0.5 {
+            lastDragEvent = Date()
+            if abs(dx) >= abs(dy) { holdDir = dx > 0 ? .dpadRight : .dpadLeft }
+            else { holdDir = dy > 0 ? .dpadDown : .dpadUp }
+        }
         if hypot(v.translation.width, v.translation.height) > 10 { moved = true; longTask?.cancel() }
         guard moved, !didLong else { return }
         accum.width += dx; accum.height += dy
@@ -246,6 +274,7 @@ private struct TouchpadView: View {
 
     private func onEnded(_ v: DragGesture.Value) {
         longTask?.cancel()
+        repeatTask?.cancel(); repeatTask = nil; holdDir = nil
         active = false
         if didLong { session.send(.dpadCenter, direction: .endLong) }
         else if !moved { session.haptic(); session.send(.dpadCenter) }
@@ -286,6 +315,10 @@ private struct KeyboardView: View {
                 action("delete.left", "Backspace", .delete, repeats: true)
                 action("return", "Enter", .enter, repeats: false)
             }
+            @Bindable var s = session
+            Toggle("Send as key presses (for browsers)", isOn: $s.forceKeyEvents)
+                .font(.caption).foregroundStyle(Theme.secondaryLabel)
+                .tint(Theme.accent)
             Spacer(minLength: 0)
         }
         .padding(20)
@@ -312,8 +345,126 @@ private struct KeyboardView: View {
         let o = Array(old), n = Array(new)
         var i = 0
         while i < o.count, i < n.count, o[i] == n[i] { i += 1 }
-        for _ in i..<o.count { session.send(.delete) }
-        if i < n.count { session.sendText(String(n[i...])) }
+        if i < o.count { session.backspace(o.count - i) }
+        if i < n.count { session.type(String(n[i...])) }
+    }
+}
+
+// MARK: Voice
+
+private struct VoiceView: View {
+    @Environment(TVSession.self) private var session
+    @State private var speech = SpeechInput()
+
+    private var listening: Bool { speech.state == .listening }
+
+    var body: some View {
+        let shape = RoundedRectangle(cornerRadius: 28, style: .continuous)
+        VStack(spacing: 18) {
+            Text(statusText).font(.caption).foregroundStyle(Theme.secondaryLabel)
+                .multilineTextAlignment(.center)
+            Text(speech.transcript.isEmpty ? " " : speech.transcript)
+                .font(.title3).multilineTextAlignment(.center).lineLimit(4)
+                .frame(maxWidth: .infinity, minHeight: 90)
+            Button { toggle() } label: {
+                Image(systemName: listening ? "stop.fill" : "mic.fill")
+                    .font(.largeTitle)
+                    .foregroundStyle(listening ? Theme.power : Theme.accent)
+                    .frame(width: 96, height: 96)
+            }
+            .buttonStyle(NeuButtonStyle(shape: Circle()))
+            .frame(width: 96, height: 96)
+            .accessibilityLabel(listening ? "Stop and send" : "Start dictation")
+            KeyButton(key: .assist, shape: Capsule(), longPress: false) {
+                Label("TV Assistant", systemImage: "sparkles").font(.subheadline)
+                    .frame(maxWidth: .infinity, minHeight: 48)
+            }
+            .accessibilityLabel("Open Google Assistant on the TV")
+        }
+        .padding(20)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .neuBackground(shape)
+        .onDisappear { speech.stop() }
+    }
+
+    private var statusText: String {
+        switch speech.state {
+        case .idle: "Tap the mic, speak, then tap again to type it on the TV.\nFocus a text field on the TV first."
+        case .listening: "Listening…"
+        case .denied: "Microphone or speech access is off. Enable it in Settings › Remote."
+        case .unavailable: "Speech recognition isn't available right now."
+        }
+    }
+
+    private func toggle() {
+        session.haptic(.medium)
+        if listening {
+            session.type(speech.stop())
+        } else {
+            Task { await speech.start() }
+        }
+    }
+}
+
+// MARK: Motion
+
+/// Hold the pad and swing or tilt the phone to move; tap it to select. Rotation becomes arrow keys.
+private struct GyroView: View {
+    @Environment(TVSession.self) private var session
+    @State private var pointer = MotionPointer()
+    @State private var active = false
+    @State private var startedAt = Date()
+    @AppStorage("gyroSensitivity") private var sensitivity = 0.5
+
+    var body: some View {
+        let shape = RoundedRectangle(cornerRadius: 28, style: .continuous)
+        VStack(spacing: 12) {
+            ZStack {
+                VStack(spacing: 10) {
+                    Image(systemName: "gyroscope").font(.system(size: 44))
+                        .foregroundStyle(active ? Theme.accent : Theme.secondaryLabel)
+                    Text(pointer.isAvailable
+                         ? "Hold and swing or tilt the phone to move · Tap to select"
+                         : "Motion sensors aren't available on this device")
+                        .font(.caption).foregroundStyle(Theme.secondaryLabel)
+                        .multilineTextAlignment(.center).padding(.horizontal, 32)
+                }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .neuBackground(shape, pressed: active)
+            .contentShape(shape)
+            .gesture(DragGesture(minimumDistance: 0)
+                .onChanged { _ in begin() }
+                .onEnded { _ in end() })
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel("Motion pad")
+            .accessibilityHint("Hold and move the phone to move focus")
+            .accessibilityAction { session.send(.dpadCenter) }
+
+            HStack(spacing: 10) {
+                Image(systemName: "tortoise.fill").font(.caption).foregroundStyle(Theme.secondaryLabel)
+                Slider(value: $sensitivity, in: 0...1).tint(Theme.accent)
+                    .accessibilityLabel("Sensitivity")
+                Image(systemName: "hare.fill").font(.caption).foregroundStyle(Theme.secondaryLabel)
+            }
+        }
+        .onDisappear { pointer.stop() }
+    }
+
+    private func begin() {
+        guard !active else { return }
+        active = true; startedAt = Date()
+        session.haptic(.soft)
+        pointer.stepAngle = 0.28 - 0.22 * sensitivity      // 0.28 rad (slow) … 0.06 rad (fast)
+        pointer.onKey = { key in session.haptic(.soft); session.send(key) }
+        pointer.start()
+    }
+
+    private func end() {
+        pointer.stop()
+        let tapped = Date().timeIntervalSince(startedAt) < 0.3 && pointer.swung < 0.15
+        active = false
+        if tapped { session.haptic(); session.send(.dpadCenter) }
     }
 }
 

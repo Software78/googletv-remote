@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A1B2C3D4E5F60718293A4B04 /* MotionPointer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60718293A4B03 /* MotionPointer.swift */; };
+		A1B2C3D4E5F60718293A4B02 /* SpeechInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60718293A4B01 /* SpeechInput.swift */; };
 		0844E8F187F50A52607FEA5F /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1CD339DB869320D14B2822A /* SettingsView.swift */; };
 		16EE1E3F3C29990A92E61572 /* GoogleTVKit in Frameworks */ = {isa = PBXBuildFile; productRef = 017F87E3E1DE1DED6463618E /* GoogleTVKit */; };
 		19A0AB262862FEC041EED715 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C9C001C8D875DF086A3A55 /* Theme.swift */; };
@@ -31,6 +33,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A1B2C3D4E5F60718293A4B03 /* MotionPointer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionPointer.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F60718293A4B01 /* SpeechInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechInput.swift; sourceTree = "<group>"; };
 		1984B00D47BAB32877033DB5 /* KeyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyButton.swift; sourceTree = "<group>"; };
 		49C9C001C8D875DF086A3A55 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		588CB34AE98642743F765983 /* GoogleTVRemote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GoogleTVRemote.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -82,6 +86,8 @@
 			children = (
 				68811FE6AFCEBEE2823E7C0B /* GoogleTVRemoteApp.swift */,
 				88DFA5C996BAF89F817B03BB /* TVSession.swift */,
+				A1B2C3D4E5F60718293A4B03 /* MotionPointer.swift */,
+				A1B2C3D4E5F60718293A4B01 /* SpeechInput.swift */,
 				C37D040119244372FEE27B6A /* AppLibrary.swift */,
 				0308328014CDFD94D08854C9 /* Views */,
 				C42CE0B7B1F1C36B88E2AB7D /* Design */,
@@ -226,6 +232,8 @@
 			files = (
 				BED7EA7BD0234FC01725D019 /* GoogleTVRemoteApp.swift in Sources */,
 				E18158C4EAC5F7C259F2BB2B /* TVSession.swift in Sources */,
+				A1B2C3D4E5F60718293A4B04 /* MotionPointer.swift in Sources */,
+				A1B2C3D4E5F60718293A4B02 /* SpeechInput.swift in Sources */,
 				80593887678EE7802E8411B5 /* AppLibrary.swift in Sources */,
 				ECF2C7B8CDFA54E67656CAD0 /* RootView.swift in Sources */,
 				4FF867070EDF0641988FF9C0 /* RemoteView.swift in Sources */,
